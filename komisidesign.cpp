@@ -46,6 +46,25 @@ void tambahOrder() {
     cout << "Order berhasil ditambahkan!\n";
 }
 
+// Fungsi untuk menampilkan semua order
+void tampilkanOrder() {
+    if (head == nullptr) {
+        cout << "Belum ada order yang masuk.\n";
+        return;
+    }
+
+    cout << "\n--- Daftar Order Komisi Desain ---\n";
+    Order* temp = head;
+    while (temp != nullptr) {
+        cout << "ID: " << temp->id << endl;
+        cout << "Nama Klien: " << temp->namaKlien << endl;
+        cout << "Jenis Desain: " << temp->jenisDesain << endl;
+        cout << "Deskripsi: " << temp->deskripsi << endl;
+        cout << "Harga: Rp " << temp->harga << endl;
+        cout << "-------------------------------\n";
+        temp = temp->next;
+    }
+}
 // Variabel global untuk menyimpan semua order
 vector<Order> daftarOrder;
 int nextId = 1;
