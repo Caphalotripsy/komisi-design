@@ -25,13 +25,20 @@ string toLowerCase(string str) {
     return str;
 }
 
+// Fungsi Bantuan untuk menghapus spasi di awal dan akhir string
+string trim(string str) {
+    size_t first = str.find_first_not_of(" \t");
+    size_t last  = str.find_last_not_of(" \t");
+    return (first == string::npos) ? "" : str.substr(first, (last - first + 1));
+}
+
 // Fungsi Bantuan memformat jenis desain jadi kapital di awal
 string formatJenisDesain(string input) {
-    string jenis = toLowerCase(input);
+    input = trim(toLowerCase(input));
 
-    if (jenis == "logo") return "Logo";
-    else if (jenis == "poster") return "Poster";
-    else if (jenis == "ilustrasi") return "Ilustrasi";
+    if (input == "logo") return "Logo";
+    else if (input == "poster") return "Poster";
+    else if (input == "ilustrasi") return "Ilustrasi";
     else return input;  // Kembalikan apa adanya jika tidak dikenali
 }
 
@@ -42,15 +49,27 @@ void tambahOrder() {
     cin.ignore();
     cout << "Nama Klien: ";
     getline(cin, newOrder->namaKlien);
-    cout << "Jenis Desain (logo/poster/ilustrasi/dll): ";
-    getline(cin, newOrder->jenisDesain);
+
+    string jenisInput;
+    do {
+        cout << "Jenis Desain (logo/poster/ilustrasi): ";
+        getline(cin, jenisInput);
+        jenisInput = formatJenisDesain(jenisInput);
+
+        if (jenisInput == "Logo" || jenisInput == "Poster" || jenisInput == "Ilustrasi") {
+            newOrder->jenisDesain = jenisInput;
+            break;
+        } else {
+            cout << "Jenis desain tidak dikenali. Silakan masukkan hanya: logo, poster, atau ilustrasi.\n";
+        }
+    } while (true);
+
     cout << "Deskripsi Singkat: ";
     getline(cin, newOrder->deskripsi);
     cout << "Harga (Rp): ";
     cin >> newOrder->harga;
     newOrder->next = nullptr;
 
-    // Tambah ke akhir linked list
     if (head == nullptr) {
         head = newOrder;
     } else {
@@ -63,6 +82,7 @@ void tambahOrder() {
 
     cout << "Order berhasil ditambahkan!\n";
 }
+
 
 // Fungsi untuk menampilkan semua order
 void tampilkanOrder() {
