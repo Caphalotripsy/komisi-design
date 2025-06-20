@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -17,6 +18,22 @@ struct Order {
 // Pointer head linked list
 Order* head = nullptr;
 int nextId = 1;
+
+//Fungsi Bantuan #include <algorithm> untuk membaca string ke huruf kecil semua
+string toLowerCase(string str) {
+    transform(str.begin(), str.end(), str.begin(), ::tolower);
+    return str;
+}
+
+// Fungsi Bantuan memformat jenis desain jadi kapital di awal
+string formatJenisDesain(string input) {
+    string jenis = toLowerCase(input);
+
+    if (jenis == "logo") return "Logo";
+    else if (jenis == "poster") return "Poster";
+    else if (jenis == "ilustrasi") return "Ilustrasi";
+    else return input;  // Kembalikan apa adanya jika tidak dikenali
+}
 
 // Fungsi untuk membuat node baru dan menambahkannya ke linked list
 void tambahOrder() {
@@ -57,16 +74,52 @@ void tampilkanOrder() {
     cout << "\n--- Daftar Order Komisi Desain ---\n";
     Order* temp = head;
     while (temp != nullptr) {
-        cout << "ID: " << temp->id << endl;
-        cout << "Nama Klien: " << temp->namaKlien << endl;
-        cout << "Jenis Desain: " << temp->jenisDesain << endl;
-        cout << "Deskripsi: " << temp->deskripsi << endl;
-        cout << "Harga: Rp " << temp->harga << endl;
+        cout << "Nomor Pesanan : " << temp->id << endl;
+        cout << "Nama Klien    : " << temp->namaKlien << endl;
+        cout << "Jenis Desain  : " << temp->jenisDesain << endl;
+        cout << "Deskripsi     : " << temp->deskripsi << endl;
+        cout << "Harga         : Rp " << temp->harga << endl;
         cout << "-------------------------------\n";
         temp = temp->next;
     }
 }
+
+// Fungsi untuk menampilkan order berdasarkan jenis desain
+void tampilkanOrderByJenis(const string& jenisFormatted) {
+    bool ditemukan = false;
+    Order* temp = head;
+
+    cout << "\n--- Daftar Order Jenis Desain: " << jenisFormatted << " ---\n";
+    while (temp != nullptr) {
+        if (temp->jenisDesain == jenisFormatted) {
+            cout << "Nomor Pesanan : " << temp->id << endl;
+            cout << "Nama Klien    : " << temp->namaKlien << endl;
+            cout << "Deskripsi     : " << temp->deskripsi << endl;
+            cout << "Harga         : Rp " << temp->harga << endl;
+            cout << "-------------------------------\n";
+            ditemukan = true;
+        }
+        temp = temp->next;
+    }
+
+    if (!ditemukan) {
+        cout << "Belum ada order untuk desain " << jenisFormatted << ".\n";
+    }
+}
+
+void tampilkanOrderLogo() {
+    tampilkanOrderByJenis("Logo");
+}
+
+void tampilkanOrderPoster() {
+    tampilkanOrderByJenis("Poster");
+}
+
+void tampilkanOrderIlustrasi() {
+    tampilkanOrderByJenis("Ilustrasi");
+}
 //Caphalotripsy ENDLINE
+
 
 //alifcdg STARTLINE
 //Fungsi untuk menghapus order berdasarkan Nomor Pesanan
@@ -106,9 +159,12 @@ int main() {
         cout << "\n=== Menu Order Komisi Desain ===\n";
         cout << "1. Tambah Order\n";
         cout << "2. Lihat Semua Order\n";
-        cout << "3. Hapus Order\n";
-        cout << "4. Keluar\n";
-        cout << "Pilih menu (1-4): ";
+        cout << "3. Lihat Order Desain Logo\n";
+        cout << "4. Lihat Order Desain Poster\n";
+        cout << "5. Lihat Order Desain Ilustrasi\n";
+        cout << "6. Hapus Order\n";
+        cout << "7. Keluar\n";
+        cout << "Pilih menu (1-7): ";
         cin >> pilihan;
 
         switch (pilihan) {
@@ -119,16 +175,25 @@ int main() {
                 tampilkanOrder();
                 break;
             case 3:
-                hapusOrder();
+                tampilkanOrderLogo();
                 break;
             case 4:
-                cout << "Terima kasih telah menggunakan aplikasi.\n";
+                tampilkanOrderPoster();
+                break;
+            case 5:
+                tampilkanOrderIlustrasi();
+                break;
+            case 6:
+                hapusOrder();
+                break;
+            case 7:
+                cout << "Terima kasih Telah Menggunakan Aplikasi Ini.\n";
                 break;
             default:
                 cout << "Pilihan tidak valid. Silakan coba lagi.\n";
         }
 
-    } while (pilihan != 4);
+    } while (pilihan != 7);
 
     return 0;
 }
