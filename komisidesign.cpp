@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//Caphalotripsy STARTLINE
 //Struktur untuk menyimpan data order di dalam bentuk linked list
 struct Order {
     int id;
@@ -65,11 +66,34 @@ void tampilkanOrder() {
         temp = temp->next;
     }
 }
-// Variabel global untuk menyimpan semua order
-vector<Order> daftarOrder;
-int nextId = 1;
+//Caphalotripsy ENDLINE
 
-    int main() {
+//alifcdg STARTLINE
+//Fungsi untuk menghapus order berdasarkan Nomor Pesanan
+void hapusOrder() {
+    int id;
+    cout << "Masukkan Nomor Pesanan yang ingin dihapus: ";
+    cin >> id;
 
-    return 0;
+    Order* temp = head;
+    Order* prev = nullptr;
+
+    while (temp != nullptr && temp->id != id) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == nullptr) {
+        cout << "Order dengan Nomor Pesanan tersebut tidak ditemukan.\n";
+        return;
+    }
+
+    if (prev == nullptr) {
+        head = temp->next;
+    } else {
+        prev->next = temp->next;
+    }
+
+    delete temp;
+    cout << "Order berhasil dihapus.\n";
 }
