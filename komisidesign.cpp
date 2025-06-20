@@ -97,3 +97,39 @@ void hapusOrder() {
     delete temp;
     cout << "Order berhasil dihapus.\n";
 }
+
+// Fungsi utama
+int main() {
+    int pilihan;
+
+    do {
+        cout << "\n=== Menu Order Komisi Desain ===\n";
+        cout << "1. Tambah Order\n";
+        cout << "2. Lihat Semua Order\n";
+        cout << "3. Hapus Order\n";
+        cout << "4. Keluar\n";
+        cout << "Pilih menu (1-4): ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                tambahOrder();
+                break;
+            case 2:
+                tampilkanOrder();
+                break;
+            case 3:
+                hapusOrder();
+                break;
+            case 4:
+                cout << "Terima kasih telah menggunakan aplikasi.\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid. Silakan coba lagi.\n";
+        }
+
+    } while (pilihan != 4);
+
+    return 0;
+}
+//alifcdg ENDLINE
