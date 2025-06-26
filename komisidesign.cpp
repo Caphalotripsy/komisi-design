@@ -11,7 +11,7 @@ struct Order {
     string namaKlien;
     string jenisDesain;
     string deskripsi;
-    float harga;
+    long long harga;
     Order* next;
 };
 
